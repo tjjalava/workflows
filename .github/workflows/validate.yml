@@ -1,7 +1,7 @@
 name: Validate
 on: [push, pull_request]
 jobs:
-  pre-job:
+  pre_job:
     runs-on: ubuntu-latest
     outputs:
       should-skip: ${{ steps.skip_check.outputs.should_skip }}
