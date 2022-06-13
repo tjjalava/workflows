@@ -1,0 +1,70 @@
+name: Validate
+on: [push, pull_request]
+jobs:
+  pre-job:
+    runs-on: ubuntu-latest
+    outputs:
+      should-skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          skip_after_successful_duplicate: 'true'
+          paths_ignore: '["**/README.md", "**/docs/**"]'
+          do_not_skip: '["workflow_dispatch", "schedule"]'
+
+  type-check:
+    name: TypeScript type check
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Set up Node and Yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: v16.13.1
+          cache: yarn
+
+      - name: Run typecheck
+        run: yarn typecheck
+
+  lint:
+    name: Lint code 🔍
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Set up Node and Yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: v16.13.1
+          cache: yarn
+
+      - name: Run lint
+        run: yarn lint
+
+  unit-test:
+    name: Unit test 🧪
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Set up Node and Yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: v16.13.1
+          cache: yarn
+
+
+      - name: Run unit tests
+        run: yarn test

@@ -4,5 +4,14 @@
   "main": "index.js",
   "repository": "https://github.com/tjjalava/workflows.git",
   "author": "Teppo Jalava <tjjalava@iki.fi>",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@3.2.1",
+  "scripts": {
+    "lint": "echo Lint... && sleep 3 && echo \"Lint done\"",
+    "test": "echo Test... && sleep 3 && echo \"Test done\"",
+    "typecheck": "echo \"Type check\"... && sleep 3 && echo \"Type check done\"",
+    "build": "echo Build... && sleep 3 && echo \"Build done\"",
+    "build:demo": "echo \"Build demo\"... && sleep 3 && echo \"Build demo done\"",
+    "release": "echo Release... && sleep 3 && echo \"Release done\""
+  }
 }
